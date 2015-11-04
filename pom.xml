@@ -1,0 +1,232 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>edu.brandeis.cs.lapps</groupId>
+    <artifactId>clearnlp-web-service</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>Web Services wrapping ClearNLP toolkit</name>
+    <description>
+        Publish API for the LAPPS exchange data structure (LEDS), the thing that will be serialized to from JSON-LD.
+        Provide converter for the ClearNLP output into LEDS and LIF format.
+    </description>
+    <parent>
+        <artifactId>war-parent-pom</artifactId>
+        <groupId>org.lappsgrid.maven</groupId>
+        <version>2.0.4</version>
+    </parent>
+
+
+    <!--http://www.anc.org:8080/Versions/-->
+    <properties>
+        <lapps.all>2.2.0</lapps.all>
+        <clearnlp.version>3.3.1</clearnlp.version>
+    </properties>
+
+    <repositories> <!-- internal repository -->
+        <repository>
+            <id>the Maven central repository</id>
+            <url>http://repo.maven.apache.org/maven2/</url>
+        </repository>
+        <repository>
+            <id>anc-releases</id>
+            <url>http://www.anc.org:8080/nexus/content/repositories/releases/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>anc-snapshots</id>
+            <url>http://www.anc.org:8080/nexus/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>the Maven central repository</id>
+            <url>http://repo.maven.apache.org/maven2/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>anc-releases</id>
+            <url>http://www.anc.org:8080/nexus/content/repositories/releases/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>anc-snapshots</id>
+            <url>http://www.anc.org:8080/nexus/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.lappsgrid</groupId>
+            <artifactId>all</artifactId>
+            <version>${lapps.all}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.lappsgrid</groupId>
+            <artifactId>service-grid-libs</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+
+        <!-- Main clearNLP package -->
+        <dependency>
+            <groupId>edu.emory.clir</groupId>
+            <artifactId>clearnlp</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+
+        <!-- Global dictionaries -->
+        <dependency>
+            <groupId>edu.emory.clir</groupId>
+            <artifactId>clearnlp-dictionary</artifactId>
+            <version>3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.emory.clir</groupId>
+            <artifactId>clearnlp-global-lexica</artifactId>
+            <version>3.1</version>
+        </dependency>
+
+        <!-- General domain models -->
+        <dependency>
+            <groupId>edu.emory.clir</groupId>
+            <artifactId>clearnlp-general-en-pos</artifactId>
+            <version>3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.emory.clir</groupId>
+            <artifactId>clearnlp-general-en-dep</artifactId>
+            <version>3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.emory.clir</groupId>
+            <artifactId>clearnlp-general-en-ner</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.emory.clir</groupId>
+            <artifactId>clearnlp-general-en-ner-gazetteer</artifactId>
+            <version>3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.emory.clir</groupId>
+            <artifactId>clearnlp-general-en-srl</artifactId>
+            <version>3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+            <version>2.1.7</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+            <version>2.1.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>clearnlp-web-service#${project.version}</finalName>
+        <plugins>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass/>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <annotationProcessors>
+                        <annotationProcessor>
+                            org.lappsgrid.annotation.processing.MetadataProcessor
+                        </annotationProcessor>
+                    </annotationProcessors>
+                </configuration>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <argLine>-Xms512m -Xmx5120g -XX:MaxPermSize=128m</argLine>
+                    <argLine>-XX:+UseConcMarkSweepGC</argLine>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.anc.maven.plugins</groupId>
+                <artifactId>anc-maven-plugin</artifactId>
+                <version>1.0.4</version>
+                <executions>
+                    <execution>
+                        <id>version-class</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>version-class</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <package>edu.brandeis.cs.lappsgrid</package>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
