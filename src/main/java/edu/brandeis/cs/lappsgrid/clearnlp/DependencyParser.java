@@ -24,7 +24,8 @@ public class DependencyParser extends AbstractClearNLPWebService {
 
     public DependencyParser() {
         super();
-//        getComponent(POS);
+        // need POS as well for performance
+        getComponent(POS);
         getComponent(DEP);
     }
 
