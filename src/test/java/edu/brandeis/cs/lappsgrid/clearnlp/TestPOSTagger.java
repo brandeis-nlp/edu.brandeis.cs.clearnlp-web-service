@@ -1,6 +1,6 @@
 package edu.brandeis.cs.lappsgrid.clearnlp;
 
-import junit.framework.Assert;
+import edu.brandeis.cs.lappsgrid.clearnlp.impl.POSTagger;
 import org.junit.Test;
 import org.lappsgrid.metadata.IOSpecification;
 import org.lappsgrid.metadata.ServiceMetadata;

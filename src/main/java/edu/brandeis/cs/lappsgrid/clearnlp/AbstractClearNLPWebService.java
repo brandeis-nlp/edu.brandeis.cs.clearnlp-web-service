@@ -118,7 +118,7 @@ public abstract class AbstractClearNLPWebService implements WebService {
     /**
      * Get version from metadata
      */
-    String getVersion() {
+    protected String getVersion() {
         return Version.getVersion();
     }
 

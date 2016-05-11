@@ -1,5 +1,6 @@
-package edu.brandeis.cs.lappsgrid.clearnlp;
+package edu.brandeis.cs.lappsgrid.clearnlp.impl;
 
+import edu.brandeis.cs.lappsgrid.clearnlp.AbstractClearNLPWebService;
 import edu.emory.clir.clearnlp.dependency.DEPNode;
 import edu.emory.clir.clearnlp.dependency.DEPTree;
 import org.lappsgrid.serialization.Data;

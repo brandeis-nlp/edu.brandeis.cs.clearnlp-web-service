@@ -1,5 +1,6 @@
 package edu.brandeis.cs.lappsgrid.clearnlp;
 
+import edu.brandeis.cs.lappsgrid.clearnlp.impl.NamedEntityRecognizer;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.lappsgrid.metadata.IOSpecification;
