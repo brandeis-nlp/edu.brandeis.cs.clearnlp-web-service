@@ -35,10 +35,10 @@ public class DependencyParser extends AbstractClearNLPWebService {
         String text = container.getText();
         View view = container.newView();
         String serviceName = this.getClass().getName();
-        view.addContains(Uri.DENDENCY_STRUCTURE,
+        view.addContains(Uri.DEPENDENCY_STRUCTURE,
                 String.format("%s:%s", serviceName, getVersion()),
                 "dependency-parser:clearnlp");
-        view.addContains(Uri.DEPENDENCY ,
+        view.addContains(Uri.DEPENDENCY,
                 String.format("%s:%s", serviceName, getVersion()),
                 "dependency-parser:clearnlp");
         view.addContains(Uri.TOKEN ,
@@ -63,7 +63,7 @@ public class DependencyParser extends AbstractClearNLPWebService {
 
             }
             Annotation dep = view.newAnnotation(
-                    makeID(DS_ID, sid), Uri.DENDENCY_STRUCTURE);
+                    makeID(DS_ID, sid), Uri.DEPENDENCY_STRUCTURE);
             List<String> dependencies = new ArrayList<>();
             for (DEPNode token : sent) {
                 int did = token.getID();
