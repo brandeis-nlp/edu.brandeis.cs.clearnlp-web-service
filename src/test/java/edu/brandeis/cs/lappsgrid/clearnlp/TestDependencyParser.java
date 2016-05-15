@@ -38,7 +38,7 @@ public class TestDependencyParser extends TestService {
         assertTrue("Dependencies not produced",
                 produces.getAnnotations().contains(Uri.DEPENDENCY));
         assertTrue("Dependency Structures not produced",
-                produces.getAnnotations().contains(Uri.DENDENCY_STRUCTURE));
+                produces.getAnnotations().contains(Uri.DEPENDENCY_STRUCTURE));
         assertTrue("Tokens not produced",
                 produces.getAnnotations().contains(Uri.TOKEN));
     }
@@ -64,7 +64,7 @@ public class TestDependencyParser extends TestService {
         }
         View view = resultContainer.getView(0);
         assertTrue("Not containing dependency", view.contains(Uri.DEPENDENCY));
-        assertTrue("Not containing dependency structure", view.contains(Uri.DENDENCY_STRUCTURE));
+        assertTrue("Not containing dependency structure", view.contains(Uri.DEPENDENCY_STRUCTURE));
         assertTrue("Not containing tokens", view.contains(Uri.TOKEN));
         System.out.println(Serializer.toPrettyJson(resultContainer));
     }

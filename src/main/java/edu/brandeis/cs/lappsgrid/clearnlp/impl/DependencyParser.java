@@ -18,8 +18,7 @@ import static org.lappsgrid.discriminator.Discriminators.Uri;
         description = "ClearNLP Dependency Parser",
         requires_format = { "text", "lif" },
         produces_format = { "lif" },
-        // TODO 151104 fix dependency structure to use alias
-        produces = { "dependency", "http://vocab.lappsgrid.org/DependencyStructure", "token" }
+        produces = { "dependency", "dependency-structure", "token" }
 )
 public class DependencyParser extends AbstractClearNLPWebService {
 
@@ -57,25 +56,23 @@ public class DependencyParser extends AbstractClearNLPWebService {
                 int[] span = spans.get(tokenSoFar++);
                 int start = span[0]; int end = span[1];
                 Annotation tok = view.newAnnotation(
-                        makeID(TOKEN_ID, sid, tid), Uri.TOKEN, start, end);
-//                tok.addFeature(Uri.POS, token.getPOSTag());
-//                tok.addFeature("word", token.getWordForm());
+                        makeID(TOKEN_ID_PREFIX, sid, tid), Uri.TOKEN, start, end);
 
             }
             Annotation dep = view.newAnnotation(
-                    makeID(DS_ID, sid), Uri.DEPENDENCY_STRUCTURE);
+                    makeID(DS_ID_PREFIX, sid), Uri.DEPENDENCY_STRUCTURE);
             List<String> dependencies = new ArrayList<>();
             for (DEPNode token : sent) {
                 int did = token.getID();
-                String depID = makeID(DEPENDENCY_ID, sid, did);
+                String depID = makeID(DEPENDENCY_ID_PREFIX, sid, did);
                 dependencies.add(depID);
 
                 Annotation dependency = view.newAnnotation(depID, Uri.DEPENDENCY);
                 dependency.setLabel(token.getLabel());
                 DEPNode head = token.getHead();
-                dependency.addFeature("governor", makeID(TOKEN_ID, sid, head.getID()));
+                dependency.addFeature("governor", makeID(TOKEN_ID_PREFIX, sid, head.getID()));
                 dependency.addFeature("governor_word", head.getWordForm());
-                dependency.addFeature("dependent", makeID(TOKEN_ID, sid, did));
+                dependency.addFeature("dependent", makeID(TOKEN_ID_PREFIX, sid, did));
                 dependency.addFeature("dependent_word", token.getWordForm());
 
             }

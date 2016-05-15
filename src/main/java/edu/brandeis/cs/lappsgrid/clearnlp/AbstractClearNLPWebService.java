@@ -22,10 +22,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.lappsgrid.discriminator.Discriminators.Uri;
@@ -58,15 +55,16 @@ public abstract class AbstractClearNLPWebService implements WebService {
     public static final String DEP = "DEP";
     public static final String SRL = "SRL";
 
-    public static final String TOKEN_ID = "tk_";
-    public static final String SENT_ID = "s_";
-    public static final String CONSTITUENT_ID = "c_";
-    public static final String PS_ID = "ps_";
-    public static final String DEPENDENCY_ID = "dep_";
-    public static final String DS_ID = "ds_";
-    public static final String MENTION_ID = "m_";
-    public static final String COREF_ID = "coref_";
-    public static final String NE_ID = "ne_";
+    public static final String TOKEN_ID_PREFIX = "tk_";
+    public static final String SENT_ID_PREFIX = "s_";
+    public static final String CONSTITUENT_ID_PREFIX = "c_";
+    public static final String PS_ID_PREFIX = "ps_";
+    public static final String DEPENDENCY_ID_PREFIX = "dep_";
+    public static final String DS_ID_PREFIX = "ds_";
+    public static final String SEMROLE_ID_PREFIX = "sr_";
+    public static final String MENTION_ID_PREFIX = "m_";
+    public static final String COREF_ID_PREFIX = "coref_";
+    public static final String NE_ID_PREFIX = "ne_";
 
 
     private String metadata;
@@ -193,6 +191,7 @@ public abstract class AbstractClearNLPWebService implements WebService {
         }
         Data leds;
         leds = Serializer.parse(input, Data.class);
+        // Serializer will catch any json exception and return null in that case
         if (leds ==  null) {
             leds = new Data();
             leds.setDiscriminator(Uri.TEXT);
@@ -207,9 +206,6 @@ public abstract class AbstractClearNLPWebService implements WebService {
                 log.info("Input contains ERROR");
                 return input;
             case Uri.JSON_LD:
-                log.info("Input contains LIF");
-                lif = new Container((Map) leds.getPayload());
-                break;
             case Uri.LIF:
                 log.info("Input contains LIF");
                 lif = new Container((Map) leds.getPayload());
@@ -219,9 +215,6 @@ public abstract class AbstractClearNLPWebService implements WebService {
                 lif = new Container();
                 lif.setText((String) leds.getPayload());
                 lif.setLanguage("en");
-                // return empty metadata for process result (for now)
-//                cont.setMetadata((Map) Serializer.parse(
-//                        this.getMetadata(), Data.class).getPayload());
                 break;
             default:
                 String unsupported = String.format(

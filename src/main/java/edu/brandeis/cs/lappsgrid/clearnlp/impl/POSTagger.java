@@ -45,7 +45,7 @@ public class POSTagger extends AbstractClearNLPWebService {
                 int[] span = spans.get(tokenSoFar++);
                 int start = span[0]; int end = span[1];
                 Annotation tok = view.newAnnotation(
-                        makeID(TOKEN_ID, sid, tid), Uri.TOKEN, start, end);
+                        makeID(TOKEN_ID_PREFIX, sid, tid), Uri.TOKEN, start, end);
                 tok.addFeature("pos", token.getPOSTag());
                 tok.addFeature("word", token.getWordForm());
 

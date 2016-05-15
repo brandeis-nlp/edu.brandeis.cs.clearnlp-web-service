@@ -1,8 +1,6 @@
 package edu.brandeis.cs.lappsgrid.clearnlp.impl;
 
 import edu.brandeis.cs.lappsgrid.clearnlp.AbstractClearNLPWebService;
-import edu.emory.clir.clearnlp.dependency.DEPNode;
-import edu.emory.clir.clearnlp.dependency.DEPTree;
 import org.lappsgrid.serialization.Data;
 import org.lappsgrid.serialization.Serializer;
 import org.lappsgrid.serialization.lif.Annotation;
@@ -43,7 +41,7 @@ public class Tokenizer extends AbstractClearNLPWebService {
                 int[] span = spans.get(tokenSoFar++);
                 int start = span[0]; int end = span[1];
                 Annotation tok = view.newAnnotation(
-                        makeID(TOKEN_ID, sid, tid++), Uri.TOKEN, start, end);
+                        makeID(TOKEN_ID_PREFIX, sid, tid++), Uri.TOKEN, start, end);
                 tok.addFeature("word", token);
             }
             sid++;
