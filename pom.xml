@@ -18,6 +18,7 @@
 
     <properties>
         <lapps.all>2.3.1</lapps.all>
+        <lapps.annotations>1.1.0</lapps.annotations>
         <clearnlp.version>3.3.1</clearnlp.version>
     </properties>
 
@@ -42,6 +43,12 @@
     </pluginRepositories>
 
     <dependencies>
+        <dependency>
+            <groupId>org.lappsgrid</groupId>
+            <artifactId>annotations</artifactId>
+            <version>${lapps.annotations}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.lappsgrid</groupId>
             <artifactId>discriminator</artifactId>
@@ -189,6 +196,25 @@
                 </configuration>
             </plugin>
         </plugins>
+
+        <!-- copy version as resource -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/version.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/version.properties</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
     </build>
 
 </project>

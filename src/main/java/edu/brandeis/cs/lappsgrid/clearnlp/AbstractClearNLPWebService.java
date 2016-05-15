@@ -1,6 +1,5 @@
 package edu.brandeis.cs.lappsgrid.clearnlp;
 
-import edu.brandeis.cs.lappsgrid.Version;
 import edu.emory.clir.clearnlp.component.AbstractComponent;
 import edu.emory.clir.clearnlp.component.mode.dep.DEPConfiguration;
 import edu.emory.clir.clearnlp.component.mode.srl.SRLConfiguration;
@@ -39,7 +38,7 @@ import static org.lappsgrid.discriminator.Discriminators.Uri;
         license = "apache2",
         allow = "any",
         language = { "en" }
-//        version = "2.0.1-SNAPSHOT" // this will automatically be extracted from POM, later
+//        version =
 )
 public abstract class AbstractClearNLPWebService implements WebService {
 
@@ -117,7 +116,18 @@ public abstract class AbstractClearNLPWebService implements WebService {
      * Get version from metadata
      */
     protected String getVersion() {
-        return Version.getVersion();
+        String path = "/version.properties";
+        InputStream stream = getClass().getResourceAsStream(path);
+        if (stream == null)
+            return "0.0.0.UNKNOWN";
+        Properties props = new Properties();
+        try {
+            props.load(stream);
+            stream.close();
+            return (String) props.get("version");
+        } catch (IOException e) {
+            return "0.0.0.UNKNOWN";
+        }
     }
 
     /**
@@ -314,8 +324,11 @@ public abstract class AbstractClearNLPWebService implements WebService {
             try {
                 Scanner s = new Scanner(reader).useDelimiter("\\A");
                 String metadataText = s.hasNext() ? s.next() : "";
-                metadata = (new Data<>(Uri.META,
-                        Serializer.parse(metadataText, ServiceMetadata.class))).asPrettyJson();
+                // somehow, org.lappsgrid.annotations module cannot properly get version
+                // from pom.xml before compilation, so I add it manually in runtime
+                ServiceMetadata parsedMetadata = Serializer.parse(metadataText, ServiceMetadata.class);
+                parsedMetadata.setVersion(getVersion());
+                metadata = (new Data<>(Uri.META, parsedMetadata)).asPrettyJson();
             } catch (Exception e) {
                 String message = "Unable to parse json for " + this.getClass().getName();
                 log.error(message, e);

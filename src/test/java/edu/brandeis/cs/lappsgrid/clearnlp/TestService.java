@@ -53,7 +53,7 @@ public class TestService {
 
         assertEquals("Vendor is not correct", "http://www.cs.brandeis.edu/", metadata.getVendor());
 //        assertEquals("Name is not correct", service.getClass().getName(), metadata.getName());
-//        assertEquals("Version is not correct.", Version.getVersion(), metadata.getVersion());
+        assertEquals("Version is not correct.", Version.getVersion(), metadata.getVersion());
         assertEquals("License is not correct", Uri.APACHE2, metadata.getLicense());
 
         IOSpecification produces = metadata.getProduces();
